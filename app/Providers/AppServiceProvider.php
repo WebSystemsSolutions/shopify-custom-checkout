@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Utils\EloquentEntityManager;
+use App\Utils\Interfaces\EntityManager;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,7 +15,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->singleton(EntityManager::class, EloquentEntityManager::class);
     }
 
     /**

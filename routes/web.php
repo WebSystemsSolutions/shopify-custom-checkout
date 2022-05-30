@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Shopify\CheckoutController;
+use App\Http\Middleware\ShopifyShopMiddleware;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +15,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::middleware(['verify.shopify'])->group(function () {
+    Route::get('/', function () {
+        return view('welcome');
+    })->name('home');
+
+
+});
+
+Route::group([
+    'prefix' => '/checkout',
+    'middleware' => ShopifyShopMiddleware::class,
+], function (): void {
+    Route::get('/', [CheckoutController::class, 'checkout'])->name('checkout');
+    Route::post('/shipments', [CheckoutController::class, 'getShipments'])->name('shipments');
+    Route::post('/shipments/add', [CheckoutController::class, 'addShipmentMethod'])->name('addShipments');
+    Route::post('/confirm', [CheckoutController::class, 'confirm'])->name('confirm');
 });

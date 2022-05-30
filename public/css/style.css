@@ -1,0 +1,35 @@
+.wrapper {
+    width: 80%;
+    margin: 0 auto;
+}
+
+img{
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
+}
+.box{
+    width: 150px;
+}
+
+.price{
+    margin-top: 25px;
+}
+
+.flex-parent-horizontal {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+table, th, td {
+    padding: 10px;
+}
+
+table {
+    border-spacing: 20px;
+}
+
+.custom-input {
+    margin-bottom: 25px;
+}
