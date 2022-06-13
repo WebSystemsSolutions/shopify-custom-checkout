@@ -1,10 +1,9 @@
-<?php
-
-//to delete
-//if (($key = array_search('Rest of World', $shippingZonesNames)) !== false) {
-//    unset($shippingZonesNames[$key]);
-//}
-?>
+@php
+    /** @var array $shippingZonesNames */
+    /** @var array $shippingZonesMethods */
+    /** @var array $checkoutItems */
+    /** @var int $cartItemsPrice */
+@endphp
 
 @extends('layouts.main')
 

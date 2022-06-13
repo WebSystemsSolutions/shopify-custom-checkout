@@ -1,3 +1,7 @@
+@php
+    /** @var array $validationErrors */
+@endphp
+
 @extends('layouts.main')
 
 @section('content')
