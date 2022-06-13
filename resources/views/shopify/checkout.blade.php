@@ -1,9 +1,9 @@
 <?php
 
 //to delete
-if (($key = array_search('Rest of World', $shippingZonesNames)) !== false) {
-    unset($shippingZonesNames[$key]);
-}
+//if (($key = array_search('Rest of World', $shippingZonesNames)) !== false) {
+//    unset($shippingZonesNames[$key]);
+//}
 ?>
 
 @extends('layouts.main')

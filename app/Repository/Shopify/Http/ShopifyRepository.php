@@ -16,23 +16,35 @@ class ShopifyRepository
 
     public function createOrder(array $order): array
     {
-        $response = $this->httpClient->rest(
+        return $this->httpClient->rest(
             'post',
             'orders.json',
             $order
         );
-
-        return $response;
     }
 
     public function getShippingZones(): array
     {
-        $shippingZones = $this->httpClient->json(
+        return $this->httpClient->json(
             'get',
             'api/2022-04/shipping_zones.json'
         );
+    }
 
-        return $shippingZones;
+    public function getAllShippingZones(): array
+    {
+        $shippingZones = $this->httpClient->graph(
+            'query {
+                __type(name: "CountryCode") {
+                   states: enumValues {
+                       name
+                       description
+                   }
+                }
+            }'
+        );
+
+        return $shippingZones['data']['__type']['states'];
     }
 
     public function getVariants($checkoutItemId): array
@@ -65,11 +77,9 @@ class ShopifyRepository
 
     public function getImages($productId): array
     {
-        $images = $this->httpClient->json(
+        return $this->httpClient->json(
             'get',
             'api/2022-04/products/'. $productId .'/images.json'
         );
-
-        return $images;
     }
 }

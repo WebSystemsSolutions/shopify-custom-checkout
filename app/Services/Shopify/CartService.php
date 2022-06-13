@@ -17,7 +17,6 @@ class CartService
     {
         $cartCost = 0;
         $shipmentCost = 0;
-        $total = 0;
 
         if ($cart['checkout']) {
             foreach($cart['checkout'] as $item) {;
@@ -88,43 +87,55 @@ class CartService
 
     public function getShippingZoneNames()
     {
-        $shippingZonesNames = [];
+        $shippingZoneNames = [];
 
-        $shippingZones = $this->shopifyRepository->getShippingZones();
+        $shippingZones = $this->shopifyRepository->getAllShippingZones();
 
-        foreach($shippingZones['shipping_zones'] as $shippingZone) {
-            $countries = $shippingZone['countries'];
-
-            foreach ($countries as $country) {
-                $shippingZonesNames[] = $country['name'];
-            }
+        foreach($shippingZones as $shippingZone) {
+            $shippingZoneNames[] = rtrim($shippingZone['description'], '.');
         }
 
-        return $shippingZonesNames;
+        return $shippingZoneNames;
     }
 
     public function getShippingZoneMethods($countryName)
     {
-        $shippingZoneName = [];
+        $shippingZoneRates = [];
+        $worldZoneRates = [];
         $shippingZonesMethods = [];
+        $worldShippingZonesMethods = [];
         $shippingZones = $this->shopifyRepository->getShippingZones();
 
         foreach($shippingZones['shipping_zones'] as $shippingZone) {
             $countries = $shippingZone['countries'];
 
+            if ($shippingZone['name'] === 'World') {
+                $worldZoneRates = $shippingZone['price_based_shipping_rates'];
+            }
+
             foreach ($countries as $country) {
                 if ($country['name'] === $countryName) {
-                    $shippingZoneName = $shippingZone['price_based_shipping_rates'];
+                    $shippingZoneRates = $shippingZone['price_based_shipping_rates'];
                 }
             }
         }
 
-        foreach ($shippingZoneName as $key => $method) {
-            $shippingZonesMethods[$key]['id'] = $method['id'];
-            $shippingZonesMethods[$key]['name'] = $method['name'];
-            $shippingZonesMethods[$key]['price'] = $method['price'];
+        if (!empty($shippingZoneRates)) {
+            foreach ($shippingZoneRates as $key => $method) {
+                $shippingZonesMethods[$key]['id'] = $method['id'];
+                $shippingZonesMethods[$key]['name'] = $method['name'];
+                $shippingZonesMethods[$key]['price'] = $method['price'];
+            }
+
+            return $shippingZonesMethods;
         }
 
-        return $shippingZonesMethods;
+        foreach ($worldZoneRates as $key => $method) {
+            $worldShippingZonesMethods[$key]['id'] = $method['id'];
+            $worldShippingZonesMethods[$key]['name'] = $method['name'];
+            $worldShippingZonesMethods[$key]['price'] = $method['price'];
+        }
+
+        return $worldShippingZonesMethods;
     }
 }

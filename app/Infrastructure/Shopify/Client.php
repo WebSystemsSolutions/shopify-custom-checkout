@@ -69,4 +69,36 @@ class Client
 
         return json_decode($response->getBody(),true);
     }
+
+    public function graph($query)
+    {
+        /** @var User $shop */
+        $shop = $this->userRepository->where('name', '=', session()->get('shop'))->first();
+
+        if (is_null($shop)) {
+            throw new \DomainException('App is not installed in store');
+        }
+
+        $shopifyApiVersion = config('shopify-app.api_version');
+
+        $url = 'https://' . $shop->getDomain()->toNative() . '/admin/api/'. $shopifyApiVersion .'/graphql.json';
+
+        $request = ['query' => $query];
+
+        $req = json_encode($request);
+
+        $stack = HandlerStack::create();
+
+        $parameters['body'] = $req;
+        $parameters['handler'] = $stack;
+        $parameters['headers'] = [
+            'Accept'       => 'application/json',
+            'Content-Type' => 'application/json',
+            'X-Shopify-Access-Token' => $shop->getAccessToken()->toNative(),
+        ];
+
+        $response = $this->httpClient->request('post', $url ,$parameters);
+
+        return json_decode($response->getBody(),true);
+    }
 }
