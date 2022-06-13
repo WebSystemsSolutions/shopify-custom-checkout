@@ -2,7 +2,6 @@
 
 namespace App\Validator\Shopify;
 
-use App\Validator\Rules\CartRule;
 use App\Validator\Validator;
 
 class CartValidator extends Validator
@@ -10,12 +9,22 @@ class CartValidator extends Validator
     public function getRules(): array
     {
         return [
-            'cart' => ['required', new CartRule()],
+            'cart' => [
+                'required',
+                'string',
+                'regex:/^[\d+:\d+,]+$/'
+            ],
+            'shop' => [
+                'required',
+                'string'
+            ],
         ];
     }
 
     public function getMessages(): array
     {
-        return [];
+        return [
+            'cart.regex' => 'Wrong cart format',
+        ];
     }
 }

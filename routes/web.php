@@ -31,4 +31,6 @@ Route::group([
     Route::post('/shipments', [CheckoutController::class, 'getShipments'])->name('shipments');
     Route::post('/shipments/add', [CheckoutController::class, 'addShipmentMethod'])->name('addShipments');
     Route::post('/confirm', [CheckoutController::class, 'confirm'])->name('confirm');
+    Route::get('/success', [CheckoutController::class, 'success'])->name('success');
 });
+

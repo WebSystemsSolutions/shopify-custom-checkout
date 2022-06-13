@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Shopify;
 
 use App\Dto\Shopify\AddShipmentMethodData;
+use App\Dto\Shopify\CartDto;
 use App\Dto\Shopify\ConfirmCheckoutDto;
 use App\Dto\Shopify\ShipmentsDto;
 use App\Http\Controllers\Controller;
@@ -10,11 +11,12 @@ use App\Repository\Shopify\Session\CartRepository;
 use App\Services\Shopify\CartService;
 use App\Services\Shopify\OrderService;
 use App\Validator\Shopify\AddShipmentMethodValidator;
+use App\Validator\Shopify\CartValidator;
 use App\Validator\Shopify\ConfirmCheckoutValidator;
 use App\Validator\Shopify\ShipmentValidator;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-use Kris\LaravelFormBuilder\FormBuilder;
+use Illuminate\Support\ViewErrorBag;
+use Illuminate\Validation\ValidationException;
 
 class CheckoutController extends Controller
 {
@@ -34,13 +36,17 @@ class CheckoutController extends Controller
         $this->orderService = $orderService;
     }
 
-    public function checkout(Request $request)
+    public function checkout(Request $request, CartValidator $validator)
     {
-        $cartItems = json_decode($request->get('cart'));
+        try {
+            $dto = CartDto::createFromData($validator->validate($request));
+        } catch (ValidationException $ex) {
+            $validationErrors = $validator->getMessages();
 
-        if (is_null($cartItems)) {
-            return view('shopify.empty-checkout');
+            return view('shopify.error-page', ['validationErrors' => $validationErrors]);
         }
+
+        $cartItems = explode(',', $dto->cart);
 
         $checkoutItems = $this->cartService->getCheckoutItems($cartItems);
 
@@ -65,7 +71,12 @@ class CheckoutController extends Controller
 
         $this->orderService->createOrder($dto);
 
-        return redirect('checkout');
+        return redirect('checkout/success');
+    }
+
+    public function success()
+    {
+        return view('shopify.success-page');
     }
 
     public function getShipments(Request $request, ShipmentValidator $validator)
