@@ -21,6 +21,7 @@ class OrderService
     {
         $shippingRate = [];
         $shippingZones = $this->shopifyRepository->getShippingZones();
+        $cartItems = $this->cartRepository->getCart()['checkout'];
 
         foreach($shippingZones['shipping_zones'] as $shippingZone) {
             $rates = $shippingZone['price_based_shipping_rates'];
@@ -34,7 +35,7 @@ class OrderService
 
         $order = [
             'order' => [
-                'line_items' => $this->getProducts($dto->items),
+                'line_items' => $this->getProducts($cartItems),
                 'email' => $dto->email,
                 'phone' => $dto->phone,
                 'shipping_address' => [
@@ -66,13 +67,15 @@ class OrderService
 
     private function getProducts(array $items)
     {
-        $products = [];
+        $itemsPayload = [];
 
         foreach ($items as $key => $item) {
-            $products[$key]['variant_id'] = $item['id'];
-            $products[$key]['quantity'] = $item['quantity'];
+            $itemsPayload[$key] = [
+                'variant_id' => $item['id'],
+                'quantity' => $item['quantity'],
+            ];
         }
 
-        return $products;
+        return $itemsPayload;
     }
 }

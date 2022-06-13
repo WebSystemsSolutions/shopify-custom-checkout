@@ -9,7 +9,6 @@ class ConfirmCheckoutDto extends AbstractDto
     public string $email;
     public string $phone;
     public string $firstName;
-    public array $items;
     public string $lastName;
     public string $country;
     public string $city;
@@ -46,7 +45,6 @@ class ConfirmCheckoutDto extends AbstractDto
                 'street' => $street,
                 'postalCode' => (int)$request['postalCode'],
                 'shippingMethodId' => (int)$request['shippingMethodId'],
-                'items' => $request['item'],
             ]
         );
     }

@@ -1,7 +1,5 @@
 <?php
 
-$productCounter = 0;
-
 //to delete
 if (($key = array_search('Rest of World', $shippingZonesNames)) !== false) {
     unset($shippingZonesNames[$key]);
@@ -25,24 +23,6 @@ if (($key = array_search('Rest of World', $shippingZonesNames)) !== false) {
         <h4 class="checkout-header">Custom checkout</h4>
         <form method="post" action="{{route('confirm')}}">
             @csrf
-            @foreach($checkoutItems as $item)
-                @include(
-                'inc.form.hidden-input',
-                [
-                    'type' => 'hidden',
-                    'name' => 'item[' . $productCounter . '][id]',
-                    'value' => $item['id']
-                ])
-                @include(
-               'inc.form.hidden-input',
-               [
-                   'type' => 'hidden',
-                   'name' => 'item[' . $productCounter . '][quantity]',
-                   'value' => $item['quantity']
-               ])
-               <?php $productCounter++; ?>
-            @endforeach
-
             @include(
                 'inc.form.input',
                 [
