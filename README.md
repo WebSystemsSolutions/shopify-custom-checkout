@@ -1,64 +1,24 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+**Name**: Customization of Shopify Checkout Application <br />
+**Platform**: CMS Shopify <br />
+**Ver**. 1.0 <br />
+**Description**: application that allows to customize Shopify checkout pages.
+It's experimental app that makes possible to create your own style of checkout without the Shopify Plus tariff plan. Our solution allow you to customize the checkout pages of a Shopify store despite the official restrictions in checkout customization.
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+The chekout customization application was developed taking into account that it will be used not in every Shopify store. It is still difficult to achieve full versatility, because each online store has its own functionality. The developed solution is rather a “skeleton” for further implementation and integration with the selected store.
 
-## About Laravel
+1. It all starts with the fact that the user installs the application. A notation is entered into the database that the store is registered, and data about it is added to the database. To further configurations, you need to insert JS code that will collect user cart data. After the user clicks the checkout button, this JS code will start working and generate a feed for hosting with the checkout. This feed will contain the product ID and there quantity. Also, it is important to add to the feed the name of the store with which the custom checkout will process. Without this, the app will not be able to properly understand where to create orders.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+2. However, the installation is not enough. As we mentioned earlier, each store has its own unique functionality. So just install the app and start selling – it will not work. You need to manually adjust the code to the Shopify theme, as we’ve show on the screenshot below.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+![liquid_theme_file_changes.png](docs/inc/liquid_theme_file_changes.png)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+3. After setting up the application, the Shopify store starts working with a custom checkout. When you click on the checkout button, you will be redirected to our custom solution. You can set up the interface but not through the admin panel of the site. You need to involve a front-end developer for this.
 
-## Learning Laravel
+![checkout_is_ready.png](docs/inc/checkout_is_ready.png)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+NOTICE! This solution is cheating Shopify, and the platform will not receive a transaction fee. The app we’ve built to customize the Shopify checkout page can be used only at your own risk.
+Additional information you can read in our blog - https://web-systems.solutions/en/blog/customizing-shopify-checkout-pages/
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+WARNING! By downloading and installing this application, you accept the fact that the module is distributed free of charge on the model "AS IS". You do everything at your own risk. The authors of the addon are not responsible for errors, omissions or conflicts of the module with other applications or sanctions against your website.
 
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+For additional integration issues just mail us - info@web-systems.solutions
