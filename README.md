@@ -8,9 +8,25 @@ The chekout customization application was developed taking into account that it 
 
 1. It all starts with the fact that the user installs the application. A notation is entered into the database that the store is registered, and data about it is added to the database. To further configurations, you need to insert JS code that will collect user cart data. After the user clicks the checkout button, this JS code will start working and generate a feed for hosting with the checkout. This feed will contain the product ID and there quantity. Also, it is important to add to the feed the name of the store with which the custom checkout will process. Without this, the app will not be able to properly understand where to create orders.
 
-2. However, the installation is not enough. As we mentioned earlier, each store has its own unique functionality. So just install the app and start selling – it will not work. You need to manually adjust the code to the Shopify theme, as we’ve show on the screenshot below.
+2. However, the installation is not enough. As we mentioned earlier, each store has its own unique functionality. So just install the app and start selling – it will not work. You need to manually adjust the JS code sample to the Shopify theme.
 
-![liquid_theme_file_changes.png](docs/inc/liquid_theme_file_changes.png)
+```JavaScript
+<script>
+    document.querySelector('#checkout').addEventListener('click', function(event) {
+        event.preventDefault();
+        
+        let cartContents = fetch(window.Shopify.routes.root + 'cart.js')
+            .then(response => response.json())
+            .then(function(data) {
+                let cartItems = [];
+                let shopName = window.Shopify.shop;
+            
+                data.items.forEach(element => cartItems.push(element.id + ':' + element.quantity));
+                window.location.href = 'https://{your-app-domain}/checkout?cart=' + cartItems + '&shop=' + shopName;
+            });
+    });
+</script>
+```
 
 3. After setting up the application, the Shopify store starts working with a custom checkout. When you click on the checkout button, you will be redirected to our custom solution. You can set up the interface but not through the admin panel of the site. You need to involve a front-end developer for this.
 
